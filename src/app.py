@@ -11,6 +11,9 @@ from fastapi.responses import RedirectResponse
 import os
 from pathlib import Path
 
+# MCP Integration Example
+from fastapi.responses import JSONResponse
+
 app = FastAPI(title="Mergington High School API",
               description="API for viewing and signing up for extracurricular activities")
 
@@ -130,3 +133,19 @@ def unregister_from_activity(activity_name: str, email: str):
     # Remove student
     activity["participants"].remove(email)
     return {"message": f"Unregistered {email} from {activity_name}"}
+
+
+# MCP Integration endpoint
+@app.get("/mcp/copilot-demo")
+def mcp_copilot_demo():
+    """
+    Example endpoint to demonstrate MCP integration with Copilot.
+    Returns a simple message and mock MCP context.
+    """
+    mcp_context = {
+        "model": "Copilot GPT-4.1",
+        "protocol": "MCP v1",
+        "status": "Integration successful",
+        "details": "This endpoint demonstrates MCP integration with Copilot."
+    }
+    return JSONResponse(content=mcp_context)
